@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YTApp</string>
+    <string name="edit_search">Wpisz szukaną frazę...</string>
+    <string name="text_search">&#8981;</string>
+</resources>

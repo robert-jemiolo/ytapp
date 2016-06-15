@@ -42,7 +42,7 @@ public class YouTubeConnect {
             query = youTube.search().list("id,snippet");
             query.setKey(getApiKey());
             query.setType("video");
-            query.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
+            query.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url,snippet/description)");
             query.setMaxResults(RESULTS_NUM);
         } catch (IOException e) {
             Log.d("YTC", "Could not initialize: " + e.getMessage());
@@ -81,7 +81,7 @@ public class YouTubeConnect {
             return items;
         } catch (IOException e) {
             Toast.makeText( context, "Wystapil blad przy wyszukiwaniu", Toast.LENGTH_LONG).show();
-            return null;
         }
+        return null;
     }
 }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
 import android.widget.VideoView;
@@ -26,13 +29,12 @@ import pl.rjemiolo.ytapp.R;
 import pl.rjemiolo.ytapp.youtube.YouTubeConnect;
 
 
-public class ListActivity extends AppCompatActivity{
+public class ListActivity extends AppCompatActivity implements ListFragment.ListFragmentActivityListener {
     private EditText searchInput;
-    private ListView videosFound;
+//    private ListView videosFound;
     private Handler handler;
 
     private List<VideoItem> searchResults;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +42,35 @@ public class ListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_list);
 
         searchInput = (EditText) findViewById(R.id.searchEditText);
-        videosFound = (ListView) findViewById(R.id.searchListView);
+//        videosFound = (ListView) findViewById(R.id.searchListView);
 
         handler = new Handler();
 
-        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if(actionId == 0){
+//                    searchOnYoutube(v.getText().toString());
+//                    return false;
+//                }
+//                return true;
+//            }
+//        });
+
+        searchInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == 0){
-                    searchOnYoutube(v.getText().toString());
-                    return false;
-                }
-                return true;
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if( s.length() > 2 ) searchOnYoutube(s.toString());
             }
         });
 
-        addClickListener();
+
     }
 
     private void searchOnYoutube(final String keywords) {
@@ -67,55 +82,52 @@ public class ListActivity extends AppCompatActivity{
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        Log.v("LA", "Znalazlo filmy");
                         updateVideosFound();
                     }
                 });
             }
         }.start();
     }
-
     private void updateVideosFound() {
-Log.v("LA", "STEP 1");
+        Log.v("LA", "Ustawiamy filmy");
+        ListFragment fragment = (ListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
+        if( fragment != null && fragment.isInLayout()){
+            Log.v("LA", "Wchodze do metody - przekazuje filmy");
+            fragment.updateVideoList(searchResults);
+        }else{
+            Log.v("LA", "Fragment nie jest widoczny");
+        }
+    }
+
+/*
+    private void updateVideosFound() {
         ArrayAdapter<VideoItem> adapter = new ArrayAdapter<VideoItem>(getApplicationContext(), R.layout.video_item, searchResults) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
                     convertView = getLayoutInflater().inflate(R.layout.video_item, parent, false);
                 }
-Log.v("LA", "STEP INNER");
-                ImageView thumbnail = (ImageView) convertView.findViewById(R.id.video_thumbnail);
-                TextView title = (TextView) convertView.findViewById(R.id.video_title);
-                TextView description = (TextView) convertView.findViewById(R.id.video_description);
-
+                ImageView thumbnail = (ImageView) convertView.findViewById(R.id.itemVideoThumbnail);
+                TextView title = (TextView) convertView.findViewById(R.id.itemVideoTitle);
+                TextView description = (TextView) convertView.findViewById(R.id.itemVideoDescription);
                 VideoItem searchResult = searchResults.get(position);
 
                 Picasso.with(getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
-                title.setText(searchResult.getDescription());
+                title.setText(searchResult.getTitle());
                 description.setText(searchResult.getDescription());
                 return convertView;
             }
         };
-Log.v("LA", "STEP 2");
         videosFound.setAdapter(adapter);
     }
-
-    private void addClickListener() {
-        videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-         //   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-           // }
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=Hxy8BZGQ5Jo")));
-//            }
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplication(), PlayerActivity.class);
-                System.out.println( searchResults.get(position).getId() );
-                intent.putExtra("VIDEO_ID", searchResults.get(position).getId());
-                startActivity(intent);
-            }
-        });
+*/
+    @Override
+    public void listFragmentSelectVideo(String videoId) {
+        Log.v("LA", "Wybrany film!");
+        Intent intent = new Intent(getApplication(), PlayerActivity.class);
+        intent.putExtra("VIDEO_ID", videoId);
+        startActivity(intent);
     }
-
 }
+

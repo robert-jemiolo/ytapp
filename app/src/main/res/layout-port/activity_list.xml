@@ -36,13 +36,6 @@
         android:orientation="horizontal">
 
         <fragment
-            android:id="@+id/fragment_listmenu"
-            class="pl.rjemiolo.ytapp.videolist.ListmenuFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"></fragment>
-
-        <fragment
             android:id="@+id/fragment_list"
             class="pl.rjemiolo.ytapp.videolist.ListFragment"
             android:layout_width="match_parent"

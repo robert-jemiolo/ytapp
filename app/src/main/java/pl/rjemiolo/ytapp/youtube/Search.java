@@ -64,6 +64,7 @@ public class Search extends AsyncTask<String, Integer, String> {
     private ListActivity parentActivity;
 
     public void startSearch(ListActivity parent, String query){
+System.exit(123);
         Log.v("SEARCH", query);
         parentActivity = parent;
         this.execute(query);

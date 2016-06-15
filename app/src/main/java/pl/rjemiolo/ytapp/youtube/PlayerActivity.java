@@ -11,13 +11,13 @@ import android.widget.VideoView;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+//import com.google.android.youtube.player.YouTubePlayerView;
 
 import pl.rjemiolo.ytapp.R;
 
-public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class PlayerActivity extends YouTubeBaseActivity{//} implements YouTubePlayer.OnInitializedListener {
 
-    private YouTubePlayerView youTubePlayerView;
+//    private YouTubePlayerView youTubePlayerView;
 
 
     @Override
@@ -26,11 +26,11 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
         setContentView(R.layout.activity_player);
         Toast.makeText(this, "Prosze czekac. Trwa ladowanie...", Toast.LENGTH_LONG).show();
         WebView webView = (WebView) findViewById(R.id.webview);
-
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.loadUrl("http://www.youtube.com/embed/" + "Hxy8BZGQ5Jo" + "?autoplay=1&vq=small");
+        webView.loadUrl("https://www.youtube.com/embed/" + getIntent().getStringExtra("VIDEO_ID") + "?autoplay=1&vq=small");
         webView.setWebChromeClient(new WebChromeClient());
+
 
 //-------
 //        String path="http://www.ted.com/talks/download/video/8584/talk/761";
@@ -47,7 +47,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
        // youTubePlayerView.initialize( YouTubeConnect.getApiKey(), this);
     }
 
-
+/*
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         if (!b) {
@@ -58,5 +58,5 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         Toast.makeText(this, "Nie udalo sie zaladowac playera", Toast.LENGTH_LONG).show();
-    }
+    }*/
 }

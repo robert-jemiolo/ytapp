@@ -129,5 +129,6 @@ public class ListActivity extends AppCompatActivity implements ListFragment.List
         intent.putExtra("VIDEO_ID", videoId);
         startActivity(intent);
     }
+
 }
 

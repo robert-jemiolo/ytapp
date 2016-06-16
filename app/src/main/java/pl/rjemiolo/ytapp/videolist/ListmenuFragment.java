@@ -1,14 +1,19 @@
 package pl.rjemiolo.ytapp.videolist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import pl.rjemiolo.ytapp.R;
+import pl.rjemiolo.ytapp.history.HistoryActivity;
+import pl.rjemiolo.ytapp.youtube.PlayerActivity;
 
 public class ListmenuFragment extends Fragment {
 
@@ -29,8 +34,53 @@ public class ListmenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_listmenu, container, false);
+
+//        View view = super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_listmenu, container, false);
+
+
+        Button home = (Button)view.findViewById(R.id.menuListButton);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ListActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button history = (Button)view.findViewById(R.id.menuHistoryButton);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button last = (Button)view.findViewById(R.id.menuLastPreviewButton);
+        last.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), PlayerActivity.class);
+                intent.putExtra("VIDEO_ID", "Y9iw4NqURos");
+                startActivity(intent);
+            }
+        });
+
+        return view;
     }
+
+    public void navigateToHome(View view){
+        Log.v("MA", "Home");
+    }
+    public void navigateToHistory(View view){
+        Log.v("MA", "History");
+
+    }
+    public void navigateToLast(View view){
+        Log.v("MA", "Last");
+
+    }
+
+
 
 //    @Override
 //    public void onAttach(Context context) {

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -22,8 +23,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import pl.rjemiolo.ytapp.R;
+import pl.rjemiolo.ytapp.history.HistoryActivity;
 import pl.rjemiolo.ytapp.youtube.PlayerActivity;
 
 public class ListFragment extends android.app.ListFragment implements AdapterView.OnItemClickListener {
@@ -55,7 +58,7 @@ public class ListFragment extends android.app.ListFragment implements AdapterVie
 //    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.v("LF", "onCreateView");
         View view = super.onCreateView(inflater, container, savedInstanceState);
 //        ListView listView = (ListView) view.findViewById(android.R.id.list);
@@ -68,6 +71,8 @@ public class ListFragment extends android.app.ListFragment implements AdapterVie
 //        RelativeLayout relLayout = (RelativeLayout) inflater.inflate( R.layout.fragment_list, container, false);
 //        parent.addView(relLayout , listViewIndex, listView.getLayoutParams());
 //        return view;
+
+
 
         Log.v("LF", "onCreateView1");
 //        Log.v("LF", "onCreateView1");
@@ -162,12 +167,6 @@ public class ListFragment extends android.app.ListFragment implements AdapterVie
     public void updateVideoList(List<VideoItem> results) {
 
         searchResults = results;
-
-        List<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("foo");
-        your_array_list.add("fo33");
-        your_array_list.add("fo555o");
-        your_array_list.add("bar");
 
         ArrayAdapter<VideoItem> arrayAdapter = new ArrayAdapter<VideoItem>(getActivity(), R.layout.video_item, searchResults) {
             @Override

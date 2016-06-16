@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.rjemiolo.ytapp">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -19,8 +20,9 @@
         <activity
             android:name=".youtube.PlayerActivity"
             android:label="ytappPlayer"
-            android:screenOrientation="landscape" />
+             />
+        <activity android:name=".videolist.MenuActivity" />
+        <activity android:name=".history.HistoryActivity"></activity>
     </application>
-
 
 </manifest>

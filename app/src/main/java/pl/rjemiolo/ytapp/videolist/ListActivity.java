@@ -4,10 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.text.Editable;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +27,9 @@ public class ListActivity extends AppCompatActivity{
 
     private ListView listSearch;
 
-    private ArrayAdapter<String> adapter ;
+    private Search search;
+
+  //  private ArrayAdapter<String> adapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +39,23 @@ public class ListActivity extends AppCompatActivity{
         editSearch = (EditText) this.findViewById(R.id.searchEditText);
         listSearch = (ListView) this.findViewById(R.id.searchListView);
 
+        /* test listy
         String cars[] = {"Mercedes", "Fiat", "Ferrari", "Aston Martin", "Lamborghini", "Skoda", "Volkswagen", "Audi", "Citroen"};
 
         ArrayList<String> carL = new ArrayList<String>();
         carL.addAll( Arrays.asList(cars) );
 
-        adapter = new ArrayAdapter<String>(this, R.layout.listelement, carL);
+        adapter = new ArrayAdapter<String>(this, R.layout.video_item, carL);
 
         listSearch.setAdapter(adapter);
-
+*/
     Log.v("LA", " ----------  Search begin  @@@@@@@@@@@@@@@ ");
-        Search search = new Search();
-        search.startSearch();
-Log.v("LA", search.toString());
+
+   //     testConn testConn = new testConn();
+   //     testConn.YoutubeConnector(this);
+
+
+        search = new Search();
 
 
         //Fragment menu = (Fragment) getFragmentManager().findFragmentById(R.id.menuFragment);
@@ -72,7 +81,23 @@ Log.v("LA", search.toString());
                 startActivity(listViewActivityIntent);
             }
         });
+
 */
+///*
+        editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if(actionId == 0){
+                    search.startSearch(v.getText().toString());
+                    return false;
+                }
+                return true;
+            }
+        });
+       // */
+
+/*
         editSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -83,9 +108,10 @@ Log.v("LA", search.toString());
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if( s.length() > 2 ) Log.v("List", "text changed! " + s );
+                if( s.length() > 2 ) search.startSearch(s.toString());
             }
         });
+       // */
     }
 
 }

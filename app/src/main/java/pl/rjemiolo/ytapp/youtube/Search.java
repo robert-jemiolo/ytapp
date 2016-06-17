@@ -8,7 +8,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
+//import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 //import com.google.api.services.samples.youtube.cmdline.Auth;
 import com.google.api.services.youtube.YouTube;
@@ -33,7 +33,7 @@ public class Search extends AsyncTask<String, Integer, String> {
      */
     private static final String PROPERTIES_FILENAME = "youtube.properties";
 
-    private static final long NUMBER_OF_VIDEOS_RETURNED = 25;
+    private static final long NUMBER_OF_VIDEOS_RETURNED = 15;
 
     /**
      * Define a global instance of a Youtube object, which will be used
@@ -42,9 +42,9 @@ public class Search extends AsyncTask<String, Integer, String> {
     private static YouTube youtube;
 
 
-    public void startSearch(){
-
-        this.execute("");
+    public void startSearch(String query){
+        Log.v("SEARCH", query);
+        this.execute(query);
 //
 //        // Read the developer key from the properties file.
 //        Properties properties = new Properties();
@@ -113,24 +113,6 @@ public class Search extends AsyncTask<String, Integer, String> {
     }
 
     /*
-     * Prompt the user to enter a query term and return the user-specified term.
-     */
-    private static String getInputQuery() throws IOException {
-
-        String inputQuery = "cats";
-return inputQuery;
-      /*  System.out.print("Please enter a search term: ");
-        BufferedReader bReader = new BufferedReader(new InputStreamReader(System.in));
-        //inputQuery = bReader.readLine();
-
-        if (inputQuery.length() < 1) {
-            // Use the string "YouTube Developers Live" as a default.
-            inputQuery = "YouTube Developers Live";
-        }
-        return inputQuery;*/
-    }
-
-    /*
      * Prints out all results in the Iterator. For each result, print the
      * title, video ID, and thumbnail.
      *
@@ -176,8 +158,7 @@ return inputQuery;
             properties.load(in);
 
         } catch (IOException e) {
-            System.err.println("There was an error reading " + PROPERTIES_FILENAME + ": " + e.getCause()
-                    + " : " + e.getMessage());
+            System.err.println("There was an error reading " + PROPERTIES_FILENAME + ": " + e.getCause() + " : " + e.getMessage());
             System.exit(1);
         }
 
@@ -186,25 +167,15 @@ return inputQuery;
             // argument is required, but since we don't need anything
             // initialized when the HttpRequest is initialized, we override
             // the interface and provide a no-op function.
-            youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, new HttpRequestInitializer() {
-                public void initialize(HttpRequest request) throws IOException {
-                }
-            }).setApplicationName("youtube-cmdline-search-sample").build();
-Log.v("SS", "       1");
-            // Prompt the user to enter a query term.
-            String queryTerm = getInputQuery();
+            youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
+                public void initialize(com.google.api.client.http.HttpRequest request) throws IOException {}
+            }).setApplicationName("YTApp").build();
 
             // Define the API request for retrieving search results.
             YouTube.Search.List search = youtube.search().list("id,snippet");
-Log.v("SS", "       2");
-
-            // Set your developer key from the {{ Google Cloud Console }} for
-            // non-authenticated requests. See:
-            // {{ https://cloud.google.com/console }}
             String apiKey = properties.getProperty("youtube.apikey");
             search.setKey(apiKey);
-            search.setQ(queryTerm);
-Log.v("SS", "       3");
+            search.setQ(params[0]);
 
             // Restrict the search results to only include videos. See:
             // https://developers.google.com/youtube/v3/docs/search/list#type
@@ -214,22 +185,21 @@ Log.v("SS", "       3");
             // application uses.
             search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
             search.setMaxResults(NUMBER_OF_VIDEOS_RETURNED);
-Log.v("SS", "       4");
 
-            // Call the API and print results.
             SearchListResponse searchResponse = search.execute();
             List<SearchResult> searchResultList = searchResponse.getItems();
             if (searchResultList != null) {
-                prettyPrint(searchResultList.iterator(), queryTerm);
+                prettyPrint(searchResultList.iterator(), params[0]);
             }else{
                 System.err.println("Chyba nie znalazlo zadnych wynikow !!!!!!!!!!!!!!!!!!!!!!");
             }
-            Log.v("SS", "       5");
         } catch (GoogleJsonResponseException e) {
             System.err.println("There was a service error: " + e.getDetails().getCode() + " : "
                     + e.getDetails().getMessage());
         } catch (IOException e) {
             System.err.println("There was an IO error: " + e.getCause() + " : " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("There was ERROR: " + e.getCause() + " : " + e.getMessage());
         } catch (Throwable t) {
             t.printStackTrace();
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">YTApp</string>
+    <string name="app_name">ytapp</string>
     <string name="edit_search">Szukaj wideo...</string>
     <string name="text_search">&#8981;</string>
     <string name="title_activity_display_message">My Message</string>

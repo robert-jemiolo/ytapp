@@ -40,47 +40,39 @@ public class ListmenuFragment extends Fragment {
 
 
         Button home = (Button)view.findViewById(R.id.menuListButton);
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ListActivity.class);
-                startActivity(intent);
-            }
-        });
+        if( home != null ) {
+            home.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ListActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
         Button history = (Button)view.findViewById(R.id.menuHistoryButton);
-        history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), HistoryActivity.class);
-                startActivity(intent);
-            }
-        });
+        if( history != null) {
+            history.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), HistoryActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
         Button last = (Button)view.findViewById(R.id.menuLastPreviewButton);
-        last.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PlayerActivity.class);
-                intent.putExtra("VIDEO_ID", "Y9iw4NqURos");
-                startActivity(intent);
-            }
-        });
+        if( last != null ) {
+            last.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), PlayerActivity.class);
+                    intent.putExtra("VIDEO_ID", "Y9iw4NqURos");
+                    startActivity(intent);
+                }
+            });
+        }
 
         return view;
     }
-
-    public void navigateToHome(View view){
-        Log.v("MA", "Home");
-    }
-    public void navigateToHistory(View view){
-        Log.v("MA", "History");
-
-    }
-    public void navigateToLast(View view){
-        Log.v("MA", "Last");
-
-    }
-
-
 
 //    @Override
 //    public void onAttach(Context context) {

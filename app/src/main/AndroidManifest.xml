@@ -21,7 +21,6 @@
             android:name=".youtube.PlayerActivity"
             android:label="ytappPlayer"
              />
-        <activity android:name=".videolist.MenuActivity" />
         <activity android:name=".history.HistoryActivity"></activity>
     </application>
 

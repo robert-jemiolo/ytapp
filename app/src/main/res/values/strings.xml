@@ -5,4 +5,8 @@
     <string name="text_play">&#9658;</string>
     <string name="text_history">&#x1f550;</string>
     <string name="text_home">&#x2302;</string>
+    <string name="text_listhistory">Ostatnio oglądane:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

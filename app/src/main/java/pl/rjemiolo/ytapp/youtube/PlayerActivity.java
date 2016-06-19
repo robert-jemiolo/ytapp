@@ -1,7 +1,10 @@
 package pl.rjemiolo.ytapp.youtube;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -14,8 +17,9 @@ import com.google.android.youtube.player.YouTubePlayer;
 //import com.google.android.youtube.player.YouTubePlayerView;
 
 import pl.rjemiolo.ytapp.R;
+import pl.rjemiolo.ytapp.history.HistoryDbHelper;
 
-public class PlayerActivity extends YouTubeBaseActivity{//} implements YouTubePlayer.OnInitializedListener {
+public class PlayerActivity extends YouTubeBaseActivity {//} implements YouTubePlayer.OnInitializedListener {
 
 //    private YouTubePlayerView youTubePlayerView;
 
@@ -24,12 +28,8 @@ public class PlayerActivity extends YouTubeBaseActivity{//} implements YouTubePl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-        Toast.makeText(this, "Prosze czekac. Trwa ladowanie...", Toast.LENGTH_LONG).show();
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.loadUrl("https://www.youtube.com/embed/" + getIntent().getStringExtra("VIDEO_ID") + "?autoplay=1&vq=small");
-        webView.setWebChromeClient(new WebChromeClient());
+
+        runVideo();
 
 
 //-------
@@ -43,8 +43,24 @@ public class PlayerActivity extends YouTubeBaseActivity{//} implements YouTubePl
 //        video.setVideoURI(uri);
 //        video.start();
 //------
-       // youTubePlayerView = (YouTubePlayerView) findViewById(R.id.player_view);
-       // youTubePlayerView.initialize( YouTubeConnect.getApiKey(), this);
+        // youTubePlayerView = (YouTubePlayerView) findViewById(R.id.player_view);
+        // youTubePlayerView.initialize( YouTubeConnect.getApiKey(), this);
+    }
+
+    private void addVideoToHistory(String videoId) {
+        HistoryDbHelper dbHelper = new HistoryDbHelper(getApplicationContext());
+        dbHelper.insertHistory("", "", videoId);
+    }
+
+    private void runVideo() {
+        String videoId = getIntent().getStringExtra("VIDEO_ID");
+        Toast.makeText(this, "Prosze czekac. Trwa ladowanie...", Toast.LENGTH_LONG).show();
+        addVideoToHistory(videoId);
+        WebView webView = (WebView) findViewById(R.id.webview);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webView.loadUrl("https://www.youtube.com/embed/" + videoId + "?autoplay=1&vq=small");
+        webView.setWebChromeClient(new WebChromeClient());
     }
 
 /*

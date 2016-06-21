@@ -12,22 +12,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/edit_search"
         />
-    <TextView
-        android:textSize="35sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_search"
-        />
     <ListView
         android:id="@+id/searchListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ListView>
-    <!--<fragment-->
-        <!--android:id="@+id/videolist_fragment"-->
-        <!--android:name="pl.rjemiolo.ytapp.videolist.ListFragment"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--class="pl.rjemiolo.ytapp.videolist.ListFragment"-->
-        <!--/>-->
 </LinearLayout>

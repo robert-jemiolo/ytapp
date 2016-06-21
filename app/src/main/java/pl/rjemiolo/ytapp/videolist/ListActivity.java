@@ -1,117 +1,121 @@
 package pl.rjemiolo.ytapp.videolist;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.text.Editable;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.squareup.picasso.Picasso;
 
-import pl.rjemiolo.ytapp.youtube.Search;
+import java.util.List;
+import android.os.Handler;
+import android.widget.VideoView;
+
+import pl.rjemiolo.ytapp.youtube.PlayerActivity;
 import pl.rjemiolo.ytapp.R;
+import pl.rjemiolo.ytapp.youtube.YouTubeConnect;
 
 
 public class ListActivity extends AppCompatActivity{
-    /**
-     * Pole wyszukiwarki
-     */
-    private EditText editSearch;
+    private EditText searchInput;
+    private ListView videosFound;
+    private Handler handler;
 
-    private ListView listSearch;
+    private List<VideoItem> searchResults;
 
-    private Search search;
-
-  //  private ArrayAdapter<String> adapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        editSearch = (EditText) this.findViewById(R.id.searchEditText);
-        listSearch = (ListView) this.findViewById(R.id.searchListView);
+        searchInput = (EditText) findViewById(R.id.searchEditText);
+        videosFound = (ListView) findViewById(R.id.searchListView);
 
-        /* test listy
-        String cars[] = {"Mercedes", "Fiat", "Ferrari", "Aston Martin", "Lamborghini", "Skoda", "Volkswagen", "Audi", "Citroen"};
+        handler = new Handler();
 
-        ArrayList<String> carL = new ArrayList<String>();
-        carL.addAll( Arrays.asList(cars) );
-
-        adapter = new ArrayAdapter<String>(this, R.layout.video_item, carL);
-
-        listSearch.setAdapter(adapter);
-*/
-    Log.v("LA", " ----------  Search begin  @@@@@@@@@@@@@@@ ");
-
-   //     testConn testConn = new testConn();
-   //     testConn.YoutubeConnector(this);
-
-
-        search = new Search();
-
-
-        //Fragment menu = (Fragment) getFragmentManager().findFragmentById(R.id.menuFragment);
-        // czy istnieje?
-
-        addEvents();
-
-    //    buttonSearch = (Button) this.findViewById(R.id.button_search);
-    //    buttonSearch.setText(Html.fromHtml(getResources().getString(R.string.button_search)));
-    }
-
-    protected void fillList(){
-
-    }
-
-
-
-    private void addEvents(){
-
-    /*    listViewActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(listViewActivityIntent);
-            }
-        });
-
-*/
-///*
-        editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 if(actionId == 0){
-                    search.startSearch(v.getText().toString());
+                    searchOnYoutube(v.getText().toString());
                     return false;
                 }
                 return true;
             }
         });
-       // */
 
-/*
-        editSearch.addTextChangedListener(new TextWatcher() {
+        addClickListener();
+    }
 
+    private void searchOnYoutube(final String keywords) {
+        new Thread(){
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void run() {
+                YouTubeConnect yc = new YouTubeConnect(ListActivity.this);
+                searchResults = yc.search(keywords);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateVideosFound();
+                    }
+                });
+            }
+        }.start();
+    }
 
+    private void updateVideosFound() {
+Log.v("LA", "STEP 1");
+        ArrayAdapter<VideoItem> adapter = new ArrayAdapter<VideoItem>(getApplicationContext(), R.layout.video_item, searchResults) {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = getLayoutInflater().inflate(R.layout.video_item, parent, false);
+                }
+Log.v("LA", "STEP INNER");
+                ImageView thumbnail = (ImageView) convertView.findViewById(R.id.video_thumbnail);
+                TextView title = (TextView) convertView.findViewById(R.id.video_title);
+                TextView description = (TextView) convertView.findViewById(R.id.video_description);
 
+                VideoItem searchResult = searchResults.get(position);
+
+                Picasso.with(getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
+                title.setText(searchResult.getDescription());
+                description.setText(searchResult.getDescription());
+                return convertView;
+            }
+        };
+Log.v("LA", "STEP 2");
+        videosFound.setAdapter(adapter);
+    }
+
+    private void addClickListener() {
+        videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if( s.length() > 2 ) search.startSearch(s.toString());
+         //   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+           // }
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=Hxy8BZGQ5Jo")));
+//            }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplication(), PlayerActivity.class);
+                System.out.println( searchResults.get(position).getId() );
+                intent.putExtra("VIDEO_ID", searchResults.get(position).getId());
+                startActivity(intent);
             }
         });
-       // */
     }
 
 }

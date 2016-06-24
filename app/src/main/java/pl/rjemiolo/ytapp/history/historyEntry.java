@@ -5,22 +5,27 @@ public class HistoryEntry {
     private String date;
     private String video;
 
-    public void setId( String id ){
+    public void setId(String id) {
         this.id = id;
     }
-    public String getId(){
+
+    public String getId() {
         return this.id;
     }
-    public void setDate( String date ){
+
+    public void setDate(String date) {
         this.date = date;
     }
-    public String getDate(){
+
+    public String getDate() {
         return this.date;
     }
-    public void setVideo( String video ){
+
+    public void setVideo(String video) {
         this.video = video;
     }
-    public String getVideo(){
+
+    public String getVideo() {
         return this.video;
     }
 }

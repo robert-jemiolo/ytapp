@@ -6,7 +6,6 @@
     <string name="text_history">&#x1f550;</string>
     <string name="text_home">&#x2302;</string>
     <string name="text_listhistory">Ostatnio oglądane:</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_author">Robert Jemioło, s8277</string>
+    <string name="text_author_url">https://pl.linkedin.com/in/robert-jemioło-a30a2170</string>
 </resources>

@@ -16,11 +16,11 @@
         android:id="@+id/itemVideoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/itemVideoThumbnail"
-        android:textColor="@color/colorContentFont"
         android:text="Ala ma kota"
+        android:textColor="@color/colorContentFont"
         android:textStyle="bold" />
 
     <TextView

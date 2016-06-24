@@ -1,8 +1,5 @@
 package pl.rjemiolo.ytapp.videolist;
 
-/**
- * Created by rjemiolo on 2016-06-18.
- */
 public class VideoItem {
     private String title;
     private String description;

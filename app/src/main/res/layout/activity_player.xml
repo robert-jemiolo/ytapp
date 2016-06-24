@@ -3,25 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
-    <!--<VideoView
-    android:id="@+id/video_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"/>
-    -->
-
-    <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/webview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+        android:layout_height="fill_parent" />
 
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

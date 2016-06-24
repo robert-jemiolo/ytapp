@@ -1,16 +1,13 @@
 package pl.rjemiolo.ytapp.history;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +20,17 @@ public class HistoryListFragment extends android.app.ListFragment implements Ada
     HistoryDbHelper dbHelper;
     List<HistoryEntry> history;
     private HistoryListFragmentActivityListener hListener;
-    public HistoryListFragment() {}
+
+    public HistoryListFragment() {
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         showHistory();
     }
@@ -42,8 +43,7 @@ public class HistoryListFragment extends android.app.ListFragment implements Ada
 
     private void showHistory() {
         history = dbHelper.getHistory();
-        if (history.size() > 0){
-            Log.v("HA", "Znalazlo filmow: " + history.size() );
+        if (history.size() > 0) {
             ArrayAdapter<HistoryEntry> arrayAdapter = new ArrayAdapter<HistoryEntry>(getActivity().getApplicationContext(), R.layout.history_item, history) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,13 +65,12 @@ public class HistoryListFragment extends android.app.ListFragment implements Ada
             };
             setListAdapter(arrayAdapter);
             getListView().setOnItemClickListener(this);
-        }else{
+        } else {
             Toast.makeText(getActivity(), "Brak wpisów w historii", Toast.LENGTH_LONG).show();
         }
     }
 
     public void onAttach(Context context) {
-        Log.v("LF", "onAttach");
         super.onAttach(context);
         if (context instanceof HistoryListFragmentActivityListener) {
             hListener = (HistoryListFragmentActivityListener) context;
@@ -82,7 +81,6 @@ public class HistoryListFragment extends android.app.ListFragment implements Ada
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.v("LF", "onItemClick");
         hListener.listFragmentSelectVideo(history.get(position).getId());
     }
 

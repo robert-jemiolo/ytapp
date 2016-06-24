@@ -1,31 +1,24 @@
 package pl.rjemiolo.ytapp.videolist;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import pl.rjemiolo.ytapp.R;
+import pl.rjemiolo.ytapp.general.AuthorActivity;
 import pl.rjemiolo.ytapp.history.HistoryActivity;
+import pl.rjemiolo.ytapp.history.HistoryDbHelper;
+import pl.rjemiolo.ytapp.history.HistoryEntry;
 import pl.rjemiolo.ytapp.youtube.PlayerActivity;
 
 public class ListmenuFragment extends Fragment {
 
-//    private ListmenuFragmentInterface mListener;
-
-    public ListmenuFragment() {}
-
-//    public static ListmenuFragment newInstance(String param1, String param2) {
-//        ListmenuFragment fragment = new ListmenuFragment();
-//        Bundle args = new Bundle();
-//        return fragment;
-//    }
+    public ListmenuFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,13 +27,11 @@ public class ListmenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-//        View view = super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_listmenu, container, false);
 
 
-        Button home = (Button)view.findViewById(R.id.menuListButton);
-        if( home != null ) {
+        Button home = (Button) view.findViewById(R.id.menuListButton);
+        if (home != null) {
             home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -49,8 +40,8 @@ public class ListmenuFragment extends Fragment {
                 }
             });
         }
-        Button history = (Button)view.findViewById(R.id.menuHistoryButton);
-        if( history != null) {
+        Button history = (Button) view.findViewById(R.id.menuHistoryButton);
+        if (history != null) {
             history.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,13 +50,25 @@ public class ListmenuFragment extends Fragment {
                 }
             });
         }
-        Button last = (Button)view.findViewById(R.id.menuLastPreviewButton);
-        if( last != null ) {
+        Button last = (Button) view.findViewById(R.id.menuLastPreviewButton);
+        if (last != null) {
             last.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    HistoryDbHelper dbHelper = new HistoryDbHelper(getContext());
+                    HistoryEntry he = dbHelper.getLatestHistoryEntry();
                     Intent intent = new Intent(getContext(), PlayerActivity.class);
-                    intent.putExtra("VIDEO_ID", "Y9iw4NqURos");
+                    intent.putExtra("VIDEO_ID", he.getVideo());
+                    startActivity(intent);
+                }
+            });
+        }
+        Button author = (Button) view.findViewById(R.id.menuAuthor);
+        if (author != null) {
+            author.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), AuthorActivity.class);
                     startActivity(intent);
                 }
             });
@@ -74,24 +77,4 @@ public class ListmenuFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof ListmenuFragmentInterface) {
-//            mListener = (ListmenuFragmentInterface) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement ListmenuFragmentInterface");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
-//    public interface ListmenuFragmentInterface {
-//        void ChangeActivity(String activity);
-//    }
 }

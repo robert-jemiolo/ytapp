@@ -1,7 +1,6 @@
 package pl.rjemiolo.ytapp.youtube;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.api.client.http.HttpRequestInitializer;
@@ -37,7 +36,6 @@ public class YouTubeConnect {
             }
         }).setApplicationName(ctx.getString(R.string.app_name)).build();
 
-
         try {
             query = youTube.search().list("id,snippet");
             query.setKey(getApiKey());
@@ -45,7 +43,6 @@ public class YouTubeConnect {
             query.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url,snippet/description)");
             query.setMaxResults(RESULTS_NUM);
         } catch (IOException e) {
-            Log.d("YTC", "Could not initialize: " + e.getMessage());
             System.exit(1);
         }
     }
@@ -53,10 +50,9 @@ public class YouTubeConnect {
     public static String getApiKey() {
         Properties properties = new Properties();
         try {
-            InputStream in = Search.class.getResourceAsStream("/" + PROPERTIES_FILENAME);
+            InputStream in = YouTube.Search.class.getResourceAsStream("/" + PROPERTIES_FILENAME);
             properties.load(in);
         } catch (IOException e) {
-            Log.d("YTC", "Could not read properties: " + e.getMessage());
             System.exit(1);
         }
         return properties.getProperty("youtube.apikey");
@@ -80,7 +76,7 @@ public class YouTubeConnect {
 
             return items;
         } catch (IOException e) {
-            Toast.makeText( context, "Wystapil blad przy wyszukiwaniu", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Wystapil blad przy wyszukiwaniu", Toast.LENGTH_LONG).show();
         }
         return null;
     }

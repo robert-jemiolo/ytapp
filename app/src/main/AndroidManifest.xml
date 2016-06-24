@@ -19,9 +19,9 @@
         </activity>
         <activity
             android:name=".youtube.PlayerActivity"
-            android:label="ytappPlayer"
-             />
-        <activity android:name=".history.HistoryActivity"></activity>
+            android:label="ytappPlayer" />
+        <activity android:name=".history.HistoryActivity" />
+        <activity android:name=".general.AuthorActivity"></activity>
     </application>
 
 </manifest>

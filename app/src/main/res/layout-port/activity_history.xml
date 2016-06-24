@@ -16,15 +16,6 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
-        <fragment
-            android:id="@+id/fragment_listmenu"
-            class="pl.rjemiolo.ytapp.videolist.ListmenuFragment"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_weight="1"></fragment>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
